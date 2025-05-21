@@ -13,3 +13,30 @@ of the above.
 
   Your calculator should not evaluate more than a single pair of numbers at a time.
 */
+
+const Operators = ["+", "-", "×","÷"];
+
+const CalcKeys = [
+    "1","2","3","4","5","6","7","8","9","0",".","+"
+];
+
+const SpecialKeys = ["-","*","/"];
+
+const add = function(a,b){
+    return Number(a) + Number(b);
+};
+
+const substract = function(a,b){
+    return Number(a) - Number(b);
+};
+
+const multiply = function(a,b){
+    return Number(a) * Number(b);
+};
+
+const divide = function(a,b){
+    if(b === 0){
+        return "ERROR";
+    }
+    return Number(a) / Number(b);
+}
