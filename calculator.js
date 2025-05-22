@@ -40,3 +40,57 @@ const divide = function(a,b){
     }
     return Number(a) / Number(b);
 }
+
+//function of what to do when = is pressed
+
+const equalButton = document.querySelector("#equals");
+
+equalButton.addEventListener("click", () => {
+    let result = operate(NumA, operator, NumB);
+    if(equalButton.classList.contains("ready")) {
+        display.textContent = result;
+        NumA = result;
+        operator = "";
+        NumB = 0;
+        equalButton.classList.toggle("ready");
+        display.classList.add("display-result");
+    }
+
+});
+
+//function to detect button click
+
+document.addEventListener("keydown", (e) => {
+    let result = operate(NumA, Operators, NumB);
+    let input = e.key;
+    if (CalcKeys.includes(input)) {
+        displayNmb(input);
+    }else if (Operators.includes(input)) {
+        switch (input) {
+            case "-":
+                displayNmb("-");
+                break;
+            case "*":
+                displayNmb("*");
+                break;
+            case "/":
+                displayNmb("/");
+                break;
+        }
+    }else if (e.key === "Escape"){
+        display.textContent = "0";
+        NumA = 0;
+        operator = "";
+        NumbB = 0;
+        equalButton.classList.remove("ready");
+        display.classList.add("display-result");
+    } else if (equalButton.classList.contains("ready") 
+                && (e.key === "=" || e.key === "Enter")){
+                    display.textContent = result;
+                    NumA = result;
+                    operator = "";
+                    NumB = 0;
+                    equalButton.classList.toggle("ready");
+                    display.classList.add("display-result");
+                };
+});
