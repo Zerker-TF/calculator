@@ -40,6 +40,26 @@ const divide = function(a,b){
     }
     return Number(a) / Number(b);
 }
+//basic button function
+buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+        displayNmb(button.textContent);
+    });
+});
+
+
+//function of what to do when 'clear' is pressed
+
+const clearButton = document.querySelector('#clear');
+
+clearButton.addEventListener("click", () => {
+    display.textContent = "0";
+    NumA = 0;
+    operator = "";
+    NumB = 0;
+    equalButton.classList.remove("ready");
+    display.classList.add("display-result");
+})
 
 //function of what to do when = is pressed
 
