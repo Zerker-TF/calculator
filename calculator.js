@@ -35,11 +35,104 @@ const multiply = function(a,b){
 };
 
 const divide = function(a,b){
-    if(b === 0){
-        return "ERROR";
-    }
+
     return Number(a) / Number(b);
 }
+
+const operate = function(NumA,operator,NumB){
+    if (operator === "÷" && Number(NumB) === 0) return "DONT DIVIDE BY 0!";
+    if (NumA === "0." || NumB === "0.") return "NO .";
+    let result;
+    switch(operator){
+        case "+":
+            result = add(NumA,NumB);
+            break;
+        case "-":
+            result = substract(NumA,NumB);
+            break;
+        case "×":
+            res = multiply(NumA, NumB);
+            break;
+        case "÷":
+            res = divide(NumA, NumB);
+            break;
+    }
+    //round it up to max 2 digits
+    return Math.round(result * (10 ** 5)) / (10 ** 5);
+
+};
+
+const whatOperator = function(string){
+    for (let chat of string.split("")) {
+        if (Operators.includes(char)) return true;
+    }
+    return false;
+};
+
+let display = document.querySelector("#display-text");
+let buttons = document.querySelectorAll(".button");
+
+let NumA = 0;
+let operator = "";
+let NumB = 0;
+
+const displayNmb = function(input){
+    let displayText = display.textContent;
+    if (displayText.length >= 9) return;
+    if (displayText === "DONT DIVIDE BY 0!") {
+        display.textContent = "0";
+        NumA = 0;
+    }
+
+    if (input == "0" && displayText == "0"){
+        display.textContent = "0";
+    } else if (display.classList.contains("display-result") && !(findOperator(input))) {
+        display.textContent = "";
+        display.classList.remove("display-result");
+    } else if (display.classList.contains("display-result") && findOperator(input)) {
+        display.classList.remove("display-result");
+    }
+    if (findOperator(input)) {
+        if (findOperator(displayText)) {
+            if (typeof(Number(displayText.at(-1))) === "number" || displayText.at(-1) === ".") {
+                display.textContent = operate(NumA, operator, NumB) + input;
+                NumA = operate(NumA, operator, NumB);
+                NumB = 0;
+                equalButton.classList.toggle("ready");
+            } else {
+                display.textContent = displayText.slice(0,displayText.length - 1) + input;
+            }
+        } else if (displayText != "") {
+        display.textContent += input;
+        }
+        operator = input;
+    } else if (input === ".") {
+        if (findOperator(displayText)) {
+            if (!(NumB.toString().split("").includes("."))) {
+                NumB = NumB + input;
+                display.textContent += input;
+                equalButton.classList.add("ready");
+            }
+        } else {
+            if (!(NumA.toString().split("").includes("."))) {              
+                NumA = NumA + input;
+                display.textContent += input;
+            }
+        }
+    } else if (displayText == "0" && input == "0") {
+        display.textContent = input;
+        display.classList.add("display-result");
+    } else {
+        display.textContent += input;
+        if (findOperator(displayText)) {
+            NumB = NumB + input;
+            equalButton.classList.add("ready");
+        } else {
+            NumA = NumA + input;
+        }
+    }
+};
+
 //basic button function
 buttons.forEach((button) => {
     button.addEventListener("click", () => {
