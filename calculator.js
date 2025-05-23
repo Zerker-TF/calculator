@@ -52,7 +52,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (isNaN(num1) || isNaN(num2)) return;
 
-        const result = operate(operator, num1, num2);
+        let result = operate(operator, num1, num2);
+
+        //round up to 2 decimals
+        if (typeof result === 'number' && !Number.isInteger(result)){
+            result = result.toFixed(2);
+        }
+
         currentInput = result.toString();
         updateDisplay(currentInput);
         operator = '';
@@ -87,8 +93,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 firstOperand = currentInput;
                 operator = value;
                 shouldResetDisplay = true;
-
-                updateDisplay(`${firstOperand} ${operator}`);
+                
+                stringDisplay = (`${firstOperand} ${operator}`);
+                updateDisplay(stringDisplay);
             }
         });
     });
